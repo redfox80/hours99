@@ -1,3 +1,3 @@
-Yes?\n
-No?\n
+Yes? <br>
+No? <br>
 Who knows.
