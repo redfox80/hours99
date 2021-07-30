@@ -14,5 +14,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+	return redirect()->route('login');
+});
+
+// Route::get('login', function() {
+// 	return view('auth.login');
+// })->name('login');
+
+Route::group(['namespace' => 'App\Http\Controllers'], function() {
+
+	Route::get('login', 'AuthController@getLogin')->name('login');
+	Route::get('forgot-password', 'AuthController@getForgot')->name('forgot-password');
+	
+	Route::get('register', 'AuthController@getRegister')->name('register');
+	Route::post('register', 'AuthController@postUser');
+
 });
