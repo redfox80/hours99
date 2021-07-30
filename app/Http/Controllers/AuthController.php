@@ -41,7 +41,10 @@ class AuthController extends Controller
 			'password' => 'required'
 		]);
 
-		if(Auth::attempt($credentials))
+		//Check if remember me box is checked, if so, then true.
+		$rememberMe = ($request->remember_me == "on");
+
+		if(Auth::attempt($credentials, $rememberMe))
 		{
 			//Regenerate session id for security reasons?
 			$request->session()->regenerate();
@@ -49,9 +52,15 @@ class AuthController extends Controller
 			return redirect()->intended('home');
 		}
 
-		return back()->withErrors([
+		return back()->withInput()->withErrors([
 			'email' => 'The provided credentials did not match our records'
 		]);
+	}
+
+	public function getLogout()
+	{
+		Auth::logout();
+		return redirect()->route('login');
 	}
 
 	public function postRegister(Request $request)

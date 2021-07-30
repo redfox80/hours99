@@ -44,16 +44,15 @@
 										@csrf
 
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user {{ $errors->has('email') ? 'is-invalid':'' }}" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" value="{{ old('email') }}">
+                                            <input type="email" class="form-control form-control-user {{ $errors->any() ? 'is-invalid':'' }}" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" value="{{ old('email') }}">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user {{ $errors->has('email') ? 'is-invalid':'' }}" placeholder="Password" name="password">
+                                            <input type="password" class="form-control form-control-user {{ $errors->any() ? 'is-invalid':'' }}" placeholder="Password" name="password">
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <input type="checkbox" class="custom-control-input" id="remember_me" name="remember_me" {{ (old('remember_me') == "on") ? "checked":"" }}>
+                                                <label class="custom-control-label" for="remember_me">Remember Me</label>
                                             </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
