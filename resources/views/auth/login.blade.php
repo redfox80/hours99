@@ -40,7 +40,9 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Hours<b>99</b></h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="POST" action="{{ route('login') }}">
+										@csrf
+
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user {{ $errors->has('email') ? 'is-invalid':'' }}" aria-describedby="emailHelp" placeholder="Enter Email Address..." name="email" value="{{ old('email') }}">
                                         </div>
@@ -54,9 +56,9 @@
                                                     Me</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Login
-                                        </a>
+                                        </button>
                                     </form>
                                     <hr>
                                     <div class="text-center">

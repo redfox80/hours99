@@ -13,27 +13,51 @@ class AuthController extends Controller
 {
 	public function getLogin()
 	{
-		if(Auth::user()) return redirect()->route('home');
+		if(Auth::check()) return redirect()->route('home');
 
 		return view('auth.login');
 	}
 
 	public function getForgot()
 	{
-		if(Auth::user()) return redirect()->route('home');
+		if(Auth::check()) return redirect()->route('home');
 
 		return view('auth.forgot');
 	}
 
 	public function getRegister()
 	{
-		if(Auth::user()) return redirect()->route('home');
+		if(Auth::check()) return redirect()->route('home');
 
 		return view('auth.register');
 	}
 
-	public function postUser(Request $request)
+	public function postLogin(Request $request)
 	{
+		if(Auth::check()) return rediredct()->route('home');
+
+		$credentials = $request->validate([
+			'email' => 'required|email',
+			'password' => 'required'
+		]);
+
+		if(Auth::attempt($credentials))
+		{
+			//Regenerate session id for security reasons?
+			$request->session()->regenerate();
+
+			return redirect()->intended('home');
+		}
+
+		return back()->withErrors([
+			'email' => 'The provided credentials did not match our records'
+		]);
+	}
+
+	public function postRegister(Request $request)
+	{
+		if(Auth::check()) return rediredct()->route('home');
+
 		$validator = $request->validate([
 			'firstname' => 'required|max:100',
 			'lastname' => 'required|max:100',
@@ -42,15 +66,17 @@ class AuthController extends Controller
 		]);
 
 		$user = new User;
-		$user->name = $request->name;
+		$user->firstname = $request->firstname;
+		$user->lastname = $request->lastname;
 		$user->email = $request->email;
 		$user->password = Hash::make($request->password);
 		$user->save();
 
 		Auth::login($user);
+		
+		//Regenerate session id for security reasons?
+		$request->session()->regenerate();
 
-		return response()->json([
-			$user
-		]);
+		return redirect()->intended('home');
 	}
 }

@@ -18,6 +18,11 @@ Route::get('/', function () {
 	return redirect()->route('login');
 });
 
+Route::get('home', function()
+{
+	return "This is home";
+})->name('home');
+
 // Route::get('login', function() {
 // 	return view('auth.login');
 // })->name('login');
@@ -25,9 +30,10 @@ Route::get('/', function () {
 Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
 	Route::get('login', 'AuthController@getLogin')->name('login');
+	Route::post('login', 'AuthController@postLogin');
 	Route::get('forgot-password', 'AuthController@getForgot')->name('forgot-password');
 	
 	Route::get('register', 'AuthController@getRegister')->name('register');
-	Route::post('register', 'AuthController@postUser');
+	Route::post('register', 'AuthController@postRegister');
 
 });
