@@ -8,9 +8,9 @@ class HomeController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
+		$this->middleware(['auth', 'clockStatus']);
 	}
-	
+
 	public function getHome()
 	{
 		return view('home');

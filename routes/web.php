@@ -18,6 +18,30 @@ Route::get('/', function () {
 	return redirect()->route('login');
 });
 
+Route::get('toast', function ()
+{
+    return view('toasttest');
+});
+
+Route::get('toast/test', function()
+{
+    $toasts = [
+        [
+            'title' => 'This is a toast',
+            'body' => 'This is a toast body',
+            'color' => 'danger',
+            'nohide' => true
+        ],
+        [
+            'title' => 'This is another toast',
+            'body' => 'This is another toast body'
+        ]
+    ];
+
+    \Illuminate\Support\Facades\Session::flash('toasts', $toasts);
+    return redirect()->back();
+});
+
 // Route::get('login', function() {
 // 	return view('auth.login');
 // })->name('login');
@@ -26,6 +50,28 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
 	Route::get('home', 'HomeController@getHome')->name('home');
 
+    Route::group(['prefix' => 'clock'], function()
+    {
+       Route::get('in', 'ClockController@clockIn');
+       Route::get('out', 'ClockController@clockOut');
+    });
+
+    Route::group(['prefix' => 'hours', 'middleware' => ['auth', 'clockStatus']], function()
+    {
+        Route::get('/', 'HoursController@getHours')->name('hours');
+
+        Route::get('edit/{id}', 'HoursController@getHour')->name('editHour');
+        Route::post('edit/{id}', 'HoursController@updateHour');
+
+        Route::post('delete', 'HoursController@postDelete')->name('deleteHour');
+
+        Route::get('add', 'HoursController@getAdd')->name('addHour');
+        Route::post('add', 'HoursController@postAdd')->name('postHour');
+    });
+
+	Route::get('settings', function() {
+		return view('settings');
+	})->name('settings');
 
 	Route::get('login', 'AuthController@getLogin')->name('login');
 	Route::post('login', 'AuthController@postLogin');
@@ -33,7 +79,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 	Route::get('forgot-password', 'AuthController@getForgot')->name('forgot-password');
 
 	Route::get('logout', 'AuthController@getLogout')->name('logout');
-	
+
 	Route::get('register', 'AuthController@getRegister')->name('register');
 	Route::post('register', 'AuthController@postRegister');
 

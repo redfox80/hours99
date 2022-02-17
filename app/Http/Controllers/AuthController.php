@@ -53,7 +53,8 @@ class AuthController extends Controller
 		}
 
 		return back()->withInput()->withErrors([
-			'email' => 'The provided credentials did not match our records'
+			'email' => 'The provided credentials did not match our records',
+            'password' => 'What?'
 		]);
 	}
 
@@ -82,7 +83,7 @@ class AuthController extends Controller
 		$user->save();
 
 		Auth::login($user);
-		
+
 		//Regenerate session id for security reasons?
 		$request->session()->regenerate();
 
