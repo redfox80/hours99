@@ -15,12 +15,12 @@ class HoursController extends Controller
     public function getHours():view
     {
         $hours = Hours::where('user_id', Auth::user()->id)->orderBy('clock_in', 'desc')->get();
+        $settings = Auth::user()->settings;
 
         foreach($hours as $hour)
         {
             $hc = Carbon::parse($hour->clock_in)->floatDiffInHours(Carbon::parse($hour->clock_out));
-            //TODO: find out correct number of hours before dedutcting 30 mins
-            if($hc >= 5) $hc = $hc - 0.5;
+            if($hc >= $settings->hoursBeforeSubtract) $hc = $hc - $settings->hoursToSubtract;
             $hm = floor(($hc - floor($hc)) * 60);
             $hour->hourCount = floor($hc) . ' Hours ' . $hm . ' Minutes';
         }

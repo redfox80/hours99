@@ -1,5 +1,5 @@
 @if(Session::has('toasts'))
-    <div class="position-fixed w-100 h-auto mt-3">
+    <div class=" w-100 h-auto mt-3" style="position: fixed; left: 50px; top: 20px;">
 
         @foreach(Session::get('toasts') as $toast)
             <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="@if(isset($toast['nohide'])){{ $toast['nohide'] ? "false":"true" }}@else{{"true"}}" data-delay="{{"2000"}}@endif">

@@ -69,9 +69,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::post('add', 'HoursController@postAdd')->name('postHour');
     });
 
-	Route::get('settings', function() {
-		return view('settings');
-	})->name('settings');
+	Route::get('settings', 'SettingsController@getSettings')->name('settings');
+    Route::post('settings/userinfo', 'SettingsController@updateUserInfo')->name('settings.userinfo');
+    Route::post('settings/password', 'SettingsController@changePassword')->name('settings.password');
+    Route::post('settings/timesettings', 'SettingsController@updateTimeSettings')->name('settings.timesettings');
 
 	Route::get('login', 'AuthController@getLogin')->name('login');
 	Route::post('login', 'AuthController@postLogin');

@@ -11,6 +11,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function settings()
+    {
+        return $this->hasOne(Settings::class, 'uid');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
