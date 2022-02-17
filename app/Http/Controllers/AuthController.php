@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
@@ -81,6 +82,10 @@ class AuthController extends Controller
 		$user->email = $request->email;
 		$user->password = Hash::make($request->password);
 		$user->save();
+
+        $settings = new Settings;
+        $settings->uid = $user->id;
+        $settings->save();
 
 		Auth::login($user);
 

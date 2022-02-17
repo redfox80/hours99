@@ -58,7 +58,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
     Route::group(['prefix' => 'hours', 'middleware' => ['auth', 'clockStatus']], function()
     {
-        Route::get('/', 'HoursController@getHours')->name('hours');
+        Route::get('/', 'HoursController@getHoursView')->name('hours');
 
         Route::get('edit/{id}', 'HoursController@getHour')->name('editHour');
         Route::post('edit/{id}', 'HoursController@updateHour');

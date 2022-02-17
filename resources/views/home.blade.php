@@ -13,7 +13,7 @@
 								Total hours
 							</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								124
+                                {{ $totalHours }}
 							</div>
 						</div>
 					</div>
@@ -30,7 +30,7 @@
 								Hours this month
 							</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								124
+                                {{ $totalHoursMonth }}
 							</div>
 						</div>
 					</div>
@@ -47,7 +47,7 @@
 								Hours this week
 							</div>
 							<div class="h5 mb-0 font-weight-bold text-gray-800">
-								124
+                                {{ $totalHoursWeek }}
 							</div>
 						</div>
 					</div>

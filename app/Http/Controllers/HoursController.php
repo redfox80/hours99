@@ -12,9 +12,21 @@ use Illuminate\View\View;
 
 class HoursController extends Controller
 {
-    public function getHours():view
+    public function breakCompensationRaw($hours)
     {
-        $hours = Hours::where('user_id', Auth::user()->id)->orderBy('clock_in', 'desc')->get();
+        $settings = Auth::user()->settings;
+
+        foreach($hours as $hour)
+        {
+            $hc = Carbon::parse($hour->clock_in)->floatDiffInHours(Carbon::parse($hour->clock_out));
+            if($hc >= $settings->hoursBeforeSubtract) $hc = $hc - $settings->hoursToSubtract;
+            $hour->hourCount = $hc;
+        }
+
+        return $hours;
+    }
+    public function breakCompensation($hours)
+    {
         $settings = Auth::user()->settings;
 
         foreach($hours as $hour)
@@ -24,6 +36,14 @@ class HoursController extends Controller
             $hm = floor(($hc - floor($hc)) * 60);
             $hour->hourCount = floor($hc) . ' Hours ' . $hm . ' Minutes';
         }
+
+        return $hours;
+    }
+
+    public function getHoursView():view
+    {
+        $hours = Hours::where('user_id', Auth::user()->id)->orderBy('clock_in', 'desc')->get();
+        $hours = $this->breakCompensation($hours);
 
         return view('hours.list')
             ->with([
