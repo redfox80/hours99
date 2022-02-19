@@ -16,7 +16,7 @@
                     <th></th>
                     <th>Hours</th>
                     <th>Clock in</th>
-                    <th>Clocl out</th>
+                    <th>Clock out</th>
                 </tr>
             </thead>
 
