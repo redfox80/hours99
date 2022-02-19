@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Hours99</title>
 
     <!-- Custom fonts for this template-->
     <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -60,9 +60,9 @@
                                         </button>
                                     </form>
                                     <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>
-                                    </div>
+{{--                                    <div class="text-center">--}}
+{{--                                        <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>--}}
+{{--                                    </div>--}}
                                     <div class="text-center">
                                         <a class="small" href="{{ route('register') }}">Create an Account!</a>
                                     </div>
