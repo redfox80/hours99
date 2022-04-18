@@ -28,13 +28,21 @@ class HoursController extends Controller
     public function breakCompensation($hours)
     {
         $settings = Auth::user()->settings;
-
-        foreach($hours as $hour)
+//        dd($hours);
+        if(isset($hours[0]))
         {
-            $hc = Carbon::parse($hour->clock_in)->floatDiffInHours(Carbon::parse($hour->clock_out));
+            foreach($hours as $hour)
+            {
+                $hc = Carbon::parse($hour->clock_in)->floatDiffInHours(Carbon::parse($hour->clock_out));
+                if($hc >= $settings->hoursBeforeSubtract) $hc = $hc - $settings->hoursToSubtract;
+                $hm = floor(($hc - floor($hc)) * 60);
+                $hour->hourCount = floor($hc) . ' Hours ' . $hm . ' Minutes';
+            }
+        } else {
+            $hc = Carbon::parse($hours->clock_in)->floatDiffInHours(Carbon::parse($hours->clock_out));
             if($hc >= $settings->hoursBeforeSubtract) $hc = $hc - $settings->hoursToSubtract;
             $hm = floor(($hc - floor($hc)) * 60);
-            $hour->hourCount = floor($hc) . ' Hours ' . $hm . ' Minutes';
+            $hours->hourCount = floor($hc) . ' Hours ' . $hm . ' Minutes';
         }
 
         return $hours;
@@ -54,6 +62,7 @@ class HoursController extends Controller
     public function getHour($id):view
     {
         $hour = Hours::findOrFail($id);
+        $hour = $this->breakCompensation($hour);
 
 
         return view('hours.edit')

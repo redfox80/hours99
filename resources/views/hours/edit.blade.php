@@ -26,6 +26,10 @@
                             <input type="datetime-local" name="clock_out" class="form-control" value="{{\Carbon\Carbon::parse($hour->clock_out)->format('Y-m-d\TH:i')}}">
                         </div>
 
+                        <p class="font-weight-bold">
+                            {{ $hour->hourCount }}
+                        </p>
+
                         <button type="submit" class="btn btn-success">Update</button>
                         <button type="button" class="btn btn-danger" onclick="document.querySelector('#deleteHourForm').submit();">Delete</button>
 

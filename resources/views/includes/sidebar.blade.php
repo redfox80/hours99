@@ -22,6 +22,12 @@
             <i class="fas fa-clock"></i>
             <span>Hours</span>
         </a>
+
+    </li><li class="nav-item {{ Request::is('statistics') ? 'active':'' }}">
+        <a class="nav-link" href="{{ route('statistics') }}">
+            <i class="fas fa-chart-bar"></i>
+            <span>Statistics</span>
+        </a>
     </li>
 
 	<li class="nav-item {{ Request::is('settings*') ? 'active':'' }}">

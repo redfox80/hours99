@@ -50,12 +50,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
 
 	Route::get('home', 'HomeController@getHome')->name('home');
 
+    //Clock in/out
     Route::group(['prefix' => 'clock'], function()
     {
        Route::get('in', 'ClockController@clockIn');
        Route::get('out', 'ClockController@clockOut');
     });
 
+    //Hours
     Route::group(['prefix' => 'hours', 'middleware' => ['auth', 'clockStatus']], function()
     {
         Route::get('/', 'HoursController@getHoursView')->name('hours');
@@ -69,11 +71,24 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::post('add', 'HoursController@postAdd')->name('postHour');
     });
 
-	Route::get('settings', 'SettingsController@getSettings')->name('settings');
-    Route::post('settings/userinfo', 'SettingsController@updateUserInfo')->name('settings.userinfo');
-    Route::post('settings/password', 'SettingsController@changePassword')->name('settings.password');
-    Route::post('settings/timesettings', 'SettingsController@updateTimeSettings')->name('settings.timesettings');
+    //Statistics
+    Route::group(['prefix' => 'statistics'], function()
+    {
+        Route::get('', 'StatisticsController@getStatistics')->name('statistics');
+        Route::post('', 'StatisticsController@postStatistics');
+    });
 
+    //Settings
+    Route::group(['prefix' => 'settings'], function()
+    {
+        Route::get('', 'SettingsController@getSettings')->name('settings');
+        Route::post('userinfo', 'SettingsController@updateUserInfo')->name('settings.userinfo');
+        Route::post('password', 'SettingsController@changePassword')->name('settings.password');
+        Route::post('timesettings', 'SettingsController@updateTimeSettings')->name('settings.timesettings');
+    });
+
+
+    //Auth
 	Route::get('login', 'AuthController@getLogin')->name('login');
 	Route::post('login', 'AuthController@postLogin');
 
