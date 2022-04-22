@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use App\Models\Hours;
 
 class StatisticsController extends Controller
@@ -12,32 +15,35 @@ class StatisticsController extends Controller
         $this->middleware('auth');
     }
 
-    public function getStatistics()
+    public function getStatistics(Request $request)
     {
-        return view('statistics');
-    }
+        if($request->input('from_date') != null || $request->input('to_date') != null) {
+            $toDate = $request->input('to_date');
+            $totalHours = 0;
 
-    public function postStatistics(Request $request)
-    {
-        $totalHours = 0;
+            $request->validate([
+                'from_date' => 'required|date'
+            ]);
 
-        $hours = Hours::where('clock_in', '>', $request->input('start_date'))
-            ->where('clock_out', '<', $request->input('end_date'))
-            ->get();
+            if ($toDate == null) $toDate = Carbon::now()->format('Y-m-d');
 
-        $hoursController = new HoursController;
-        $hours = $hoursController->breakCompensationRaw($hours);
+            $hours = Hours::where('clock_in', '>', $request->input('from_date'))
+                ->where('clock_out', '<', $toDate)
+                ->where('user_id', \Auth::user()->id)
+                ->get();
 
-//        dd($hours);
+            $hoursController = new HoursController;
+            $hours = $hoursController->breakCompensationRaw($hours);
+            foreach ($hours as $hour) $totalHours += $hour->hourCount;
 
-        foreach($hours as $hour)
-        {
-            $totalHours += $hour->hourCount;
+            return view('statistics')->with([
+                'hours' => $hours,
+                'totalHours' => $totalHours,
+                'oldFromDate' => $request->input('from_date'),
+                'oldToDate' => $toDate
+            ]);
         }
 
-        return view('statistics')->with([
-            'hours' => $hours,
-            'totalHours' => $totalHours
-        ]);
+         return view('statistics');
     }
 }

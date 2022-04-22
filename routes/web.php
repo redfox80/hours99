@@ -75,7 +75,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
     Route::group(['prefix' => 'statistics'], function()
     {
         Route::get('', 'StatisticsController@getStatistics')->name('statistics');
-        Route::post('', 'StatisticsController@postStatistics');
     });
 
     //Settings
