@@ -77,7 +77,7 @@
             e.addEventListener('click', () => {
                 let time = e.getAttribute('d-time');
                 let today = new Date()
-                let date = `${today.getFullYear()}-${((today.getMonth() + 1) < 10) ? '0'+(today.getMonth()+1):(today.getMonth()+1)}-${today.getDate()}T${time}`;
+                let date = `${today.getFullYear()}-${((today.getMonth() + 1) < 10) ? '0'+(today.getMonth()+1):(today.getMonth()+1)}-${(today.getDate() +1) < 10 ? '0'+(today.getDate() + 1):(today.getDate()+1)}T${time}`;
                 clockInElement.value = date;
             })
         }
@@ -86,7 +86,7 @@
             e.addEventListener('click', () => {
                 let time = e.getAttribute('d-time');
                 let today = new Date()
-                let date = `${today.getFullYear()}-${((today.getMonth() + 1) < 10) ? '0'+(today.getMonth()+1):(today.getMonth()+1)}-${today.getDate()}T${time}`;
+                let date = `${today.getFullYear()}-${((today.getMonth() + 1) < 10) ? '0'+(today.getMonth()+1):(today.getMonth()+1)}-${(today.getDate() +1) < 10 ? '0'+(today.getDate() + 1):(today.getDate()+1)}T${time}`;
                 clockOutElement.value = date;
             })
         }
