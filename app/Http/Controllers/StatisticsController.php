@@ -28,7 +28,7 @@ class StatisticsController extends Controller
             if ($toDate == null) $toDate = Carbon::now()->format('Y-m-d');
 
             $hours = Hours::where('clock_in', '>', $request->input('from_date'))
-                ->where('clock_out', '<', $toDate)
+                ->where('clock_out', '<', Carbon::parse($toDate)->addDay()->format('Y-m-d'))
                 ->where('user_id', \Auth::user()->id)
                 ->get();
 
